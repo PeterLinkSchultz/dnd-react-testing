@@ -1,0 +1,4 @@
+export const ADD_TO_LIST = "ADD_TO_LIST";
+export const REMOVE_FROM_LIST = "REMOVE_FROM_LIST";
+export const CHANGE_ITEM_STATUS = "CHANGE_ITEM_STATUS";
+export const CHANGE_ITEM_LIST = "CHANGE_ITEM_LIST";
