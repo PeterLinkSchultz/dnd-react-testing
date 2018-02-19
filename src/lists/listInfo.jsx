@@ -18,13 +18,13 @@ class ListInfo extends Component {
         this.list = R.filter((item) => { return item.type === this.props.name }, this.props.list);
     }
     setFilter(name) {
-
+        console.log(name);
     }
     setSort(sort) {
 
     }
     renderChild() {
-        return this.props.children.map( item => {
+        return React.Children.map(this.props.children, item => {
             if ( item.type.name === "List" ) {
                 return React.cloneElement(item, { list: this.list });
             } else {
@@ -37,7 +37,7 @@ class ListInfo extends Component {
     }
     render() {
         return (
-        <div>
+        <div className="list">
             { this.renderChild() }
         </div>
         );

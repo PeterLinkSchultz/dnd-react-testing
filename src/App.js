@@ -6,22 +6,33 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ListInfo from './lists/listInfo';
 import List from './lists/list';
-import FilterLeft from './lists/filterLeft';
-
+import Panel from './panel/panel';
+import Filter from './panel/filter';
 class App extends Component {
   render() {
     return (
       <div className="container">
         <ListInfo name="U">
-          <FilterLeft/>
+          <Panel>
+            <Filter 
+              type="S"
+              value="name"
+            />
+          </Panel>
           <List />
         </ListInfo>
         <div className="info">
           Info
         </div>
-        <div>
-          List
-        </div>
+        <ListInfo name="C">
+          <Panel>
+            <Filter
+              type="L"
+              value={ ["flower","heart","sun", "flash" ]}
+             />
+          </Panel>
+          <List />
+        </ListInfo>
       </div >
     );
   }
