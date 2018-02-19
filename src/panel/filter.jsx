@@ -35,5 +35,5 @@ const Filter = (props) => {
 
 Filter.prototypes = {
     handlerChange: PropTypes.func
-}
+};
 export default Filter;

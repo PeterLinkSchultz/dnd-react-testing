@@ -47,6 +47,7 @@
 }
 .list_items {
   overflow-y: auto;
+  height: 320px;
 }
 .list_item {
   background: #FFF;
@@ -58,4 +59,11 @@
 }
 .info {
   width: 200px;
+}
+.draggable_item-active {
+  opacity: 0.7;
+  box-shadow: 0 0 2px 2px #222222;
+}
+.draggable_layer {
+  height: auto;
 }

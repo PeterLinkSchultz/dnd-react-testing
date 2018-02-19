@@ -19,17 +19,17 @@ const Panel = function (props) {
                 )
             }
         });
-    }
+    };
     return (
         <div className="list_filter">
-            {renderChild()}
+            { renderChild() }
         </div>
     );
 
-}
+};
 Panel.prototypes = {
     handlerFilter: PropTypes.func,
     handlerSort: PropTypes.func
-}
+};
 export default Panel;
 

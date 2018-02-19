@@ -14,12 +14,12 @@ class App extends Component {
       <div className="container">
         <ListInfo name="U">
           <Panel>
-            <Filter 
+            <Filter
               type="S"
               value="name"
             />
           </Panel>
-          <List />
+          <List id="U"/>
         </ListInfo>
         <div className="info">
           Info
@@ -31,7 +31,7 @@ class App extends Component {
               value={ ["flower","heart","sun", "flash" ]}
              />
           </Panel>
-          <List />
+          <List id="C"/>
         </ListInfo>
       </div >
     );
