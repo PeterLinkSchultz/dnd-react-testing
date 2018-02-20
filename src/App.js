@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import { connect } from 'react-redux';
+import { setActiveItem } from './actions/active';
 import PropTypes from 'prop-types';
 import ListInfo from './lists/listInfo';
 import List from './lists/list';
@@ -22,7 +23,7 @@ class App extends Component {
           <List id="U"/>
         </ListInfo>
         <div className="info">
-          Info
+          { this.props.active !== null ? this.props.active.name : ""}
         </div>
         <ListInfo name="C">
           <Panel>
@@ -38,4 +39,11 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(
+  (state) => {
+      return {
+        active: state.active
+      }
+  },
+  null
+)(App);

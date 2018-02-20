@@ -31,10 +31,12 @@ class List extends Component {
                             key={key}
                             handleDragStart={this.props.changeShow}
                             handleDragEnd={this.props.changeShow}
+                            handleOnDrop={this.props.changeShow}
                             >
                             <Item
-                                name="Item"
+                                name={`Item${item.name}`}
                                 active={item.active}
+                                list={item.type}
                             />
                         </DragItem>
                     }, this.props.list)

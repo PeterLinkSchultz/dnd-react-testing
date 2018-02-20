@@ -7,20 +7,43 @@ const DragLayer = function (props) {
         return React.cloneElement(props.children);
     };
     const dragOver = e => {
-   //   console.log("over");
+        e.preventDefault();
+        //console.log("drop over");
     };
     const dragLeave = e => {
-      //console.log('leave');
+        //console.log('drop leave');
     };
     const dragEnter = e => {
-        props.handleDragEnter(props.id);
+        e.preventDefault();
+        //console.log('drop enter');
+        //props.handleDragEnter(props.id);
     };
-    return(
+    const drop = e => {
+        console.log('drop item');
+    }
+    const mouseLeave = e => {
+        if (window.dragItem === undefined)
+            e.preventDefault();
+        else {
+            console.log('leave!');
+        }
+    }
+    const mouseEnter = e => {
+        console.log('enter!');
+        if (window.dragItem === undefined)
+            e.preventDefault();
+        else {
+            console.log('enter!');
+        }
+    }
+    return (
         <div
-
+//            onMouseLeave={ mouseLeave }
+          //  onMouseEnter={ async (e) => { await mouseEnter(e) }}
             onDragOver={dragOver}
             onDragLeave={dragLeave}
             onDragEnter={dragEnter}
+            onDrop={drop}
             className="draggable draggable_layer"
         >
             {renderLayer()}
@@ -28,8 +51,8 @@ const DragLayer = function (props) {
     );
 };
 DragLayer.proptypes = {
-  handleDragOver: PropTypes.func,
-  handleDragLeave: PropTypes.func,
-  handleDragEnter: PropTypes.func
+    handleDragOver: PropTypes.func,
+    handleDragLeave: PropTypes.func,
+    handleDragEnter: PropTypes.func
 };
 export default DragLayer;

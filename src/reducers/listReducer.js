@@ -14,7 +14,21 @@ let list = [
         status: [],
         type: "U",
         active: false
-    }
+    },
+    {
+        id: 3,
+        name: 3,
+        status: [],
+        type: "U",
+        active: false
+    },
+    {
+        id: 4,
+        name: 4,
+        status: [],
+        type: "C",
+        active: false
+    },
 ];
 
 export const listReducer = (state = list, action) => {

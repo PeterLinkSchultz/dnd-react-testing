@@ -1,5 +1,10 @@
 import  { ADD_TO_LIST, REMOVE_FROM_LIST, CHANGE_ITEM_STATUS, CHANGE_ITEM_LIST, CHANGE_ITEM_SHOW } from '../constants/lists';
 
+
+export const setList = () => (dispatch) => {
+    
+}
+
 export const addItemToList = (item, dispatch) => {
     dispatch({
         type: ADD_TO_LIST,
