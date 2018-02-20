@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import { setLayer, setActiveItem, clearActive } from '../actions/active';
+import { changeList } from '../actions/lists';
 const DragLayer = function (props) {
 
     const renderLayer = () => {
@@ -11,31 +13,22 @@ const DragLayer = function (props) {
         //console.log("drop over");
     };
     const dragLeave = e => {
+        props.setLayer( props.id );
         //console.log('drop leave');
     };
     const dragEnter = e => {
         e.preventDefault();
+        props.setLayer( props.id );
         //console.log('drop enter');
         //props.handleDragEnter(props.id);
     };
     const drop = e => {
+        if ( props.active.cat !== props.active.catNew ) {
+            props.handleUpdate(props.active);
+        }
+        //props.clearActive();
         console.log('drop item');
-    }
-    const mouseLeave = e => {
-        if (window.dragItem === undefined)
-            e.preventDefault();
-        else {
-            console.log('leave!');
-        }
-    }
-    const mouseEnter = e => {
-        console.log('enter!');
-        if (window.dragItem === undefined)
-            e.preventDefault();
-        else {
-            console.log('enter!');
-        }
-    }
+    };
     return (
         <div
 //            onMouseLeave={ mouseLeave }
@@ -55,4 +48,15 @@ DragLayer.proptypes = {
     handleDragLeave: PropTypes.func,
     handleDragEnter: PropTypes.func
 };
-export default DragLayer;
+export default connect(
+    (state) => {
+        return {
+            active: state.active
+        }
+    },
+    {
+        clearActive,
+        changeList,
+        setLayer
+    }
+)(DragLayer);

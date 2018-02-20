@@ -1,29 +1,37 @@
-import  { ADD_TO_LIST, REMOVE_FROM_LIST, CHANGE_ITEM_STATUS, CHANGE_ITEM_LIST, CHANGE_ITEM_SHOW } from '../constants/lists';
+import  {
+    ADD_TO_LIST,
+    REMOVE_FROM_LIST,
+    CHANGE_ITEM_STATUS,
+    CHANGE_ITEM_LIST,
+    CHANGE_ITEM_SHOW,
+    SET_LISTS
+} from '../constants/lists';
 
+import { getListApi } from '../api/lists';
+import { list } from '../api/data';
 
-export const setList = () => (dispatch) => {
-    
-}
-
-export const addItemToList = (item, dispatch) => {
+export const getList = () => dispatch => {
     dispatch({
-        type: ADD_TO_LIST,
-        item
-    })
-};
-
-export const removeItemFromList = (id, dispatch) => {
-    dispatch({
-        type: REMOVE_FROM_LIST,
-        id
+        type: SET_LISTS,
+        list
     });
 };
 
-export const changeList = (id, list) => dispatch => {
+export const setList = () => async (dispatch, getState) => {
+    try {
+        const date = await getListApi();
+        dispatch({
+            type: SET_LISTS,
+
+        })
+    } catch (e) {
+        console.log(e);
+    }
+};
+export const changeList = (item) => dispatch => {
     dispatch({
         type: CHANGE_ITEM_LIST,
-        id,
-        list
+        item
     })
 };
 

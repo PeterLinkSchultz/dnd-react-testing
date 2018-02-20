@@ -1,40 +1,10 @@
-import  { ADD_TO_LIST, REMOVE_FROM_LIST, CHANGE_ITEM_STATUS, CHANGE_ITEM_LIST, CHANGE_ITEM_SHOW } from '../constants/lists';
+import  { ADD_TO_LIST, REMOVE_FROM_LIST, CHANGE_ITEM_STATUS, CHANGE_ITEM_LIST, CHANGE_ITEM_SHOW, SET_LISTS } from '../constants/lists';
 const R =  require('ramda');
-let list = [
-    {
-        id: 1,
-        name: 1,
-        status: [],
-        type: "C",
-        active: false
-    },
-    {
-        id: 2,
-        name: 2,
-        status: [],
-        type: "U",
-        active: false
-    },
-    {
-        id: 3,
-        name: 3,
-        status: [],
-        type: "U",
-        active: false
-    },
-    {
-        id: 4,
-        name: 4,
-        status: [],
-        type: "C",
-        active: false
-    },
-];
 
-export const listReducer = (state = list, action) => {
+export const listReducer = (state = [], action) => {
     let result = state;
     switch (action.type) {
-        case ADD_TO_LIST: 
+        case ADD_TO_LIST:
             return result.push(action.item);
         break;
         case REMOVE_FROM_LIST:
@@ -43,11 +13,25 @@ export const listReducer = (state = list, action) => {
                 }, state);
         break;
         case CHANGE_ITEM_LIST:
+            let cat = action.item.cat;
+            let catNew = action.item.catNew;
+            let add;
+            let list = state;
+            list[cat] = R.filter( item => {
+                if ( item.id === action.item.id ) {
+                    add = {...item, cat: catNew};
+                    return false;
+                }
+                return true;
+            }, state[cat]);
+            list[catNew].push(add);
+            /*
             return R.map( (item, i) => {
                     if ( item.id === action.id )
                         item.type = action.list;
                     return item;
-                }, state );
+                }, state );*/
+            return list;
         break;
         case CHANGE_ITEM_SHOW:
             return R.map( (item, i) => {
@@ -55,7 +39,17 @@ export const listReducer = (state = list, action) => {
                     item.active = !item.active ? true : false;
                 return item;
             }, state );
+        case SET_LISTS:
+            let catList = {};
+            action.list.forEach((item) => {
+                if ( catList[item.cat] === undefined )
+                    catList[item.cat] = [];
+                catList[item.cat].push(item);
+            });
+            return catList;
+            break;
         default:
             return state;
+            break;
     }
 };
