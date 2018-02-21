@@ -15,25 +15,28 @@ class ListInfo extends Component {
         this.setFilters = this.setFilters.bind(this);
         this.setSort = this.setSort.bind(this);
         //this.changeShow = this.changeShow.bind(this);
-        //this.changeList = this.changeList.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.removeItem = this.removeItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.setDragItem = this.setDragItem.bind(this);
         this.clearDragItem = this.clearDragItem.bind(this);
         this.setActiveItem = this.setActiveItem.bind(this);
+
         this.state = {
             filter: [],
-            id: 0,
-            list: props.list,
+            id: props.name,
+            list: [],
             dragID: "",
             dragS: ""
         };
     }
-    componentDidUpdate(props, state) {
-        //console.log(props);
-        if (this.props.list.length !== props.list.length)
-            this.setState({ list: this.props.list });
-        return true;
+    componentWillReceiveProps(props) {
+        let name = this.state.id;
+        //console.log(name, props.list[name]);
+        if ( props.list[name] !== undefined ) {
+            //if ( props.list[name].length !== this.state.list.length )
+                this.setState({ list: R.map( item => { return item}, props.list[name] ) });
+        }
     }
     addItem() {
         let list = this.state.list;
@@ -51,7 +54,7 @@ class ListInfo extends Component {
             this.setState({ list });
         }
     }
-    setDragItem(object, status) {
+    setDragItem(object) {
         this.props.setDragItemStore(object);
         let list = R.map((item) => {
             if ( object.id === item.id ) {
@@ -60,10 +63,6 @@ class ListInfo extends Component {
             return item;
         }, this.state.list);
         this.setState({ list });
-        /*
-        if ( this.state.dragID !== id ) {
-            this.setState( { dragID: id, dragS: status });
-        }*/
     }
     setActiveItem(item) {
         this.props.setActiveItem(item);
@@ -77,7 +76,9 @@ class ListInfo extends Component {
         }, this.state.list);
         this.setState({ list });
     }
-
+    handleUpdate(layers) {
+        this.props.handleUpdate(this.props.draggable.id, layers);
+    }
     setFilters(name) {
 
     }
@@ -85,7 +86,8 @@ class ListInfo extends Component {
 
     }
     renderChild() {
-        //console.log("render", this.props.name, this.props.list);
+
+        console.log("render", this.props.draggable);
         return React.Children.map(this.props.children, item => {
             if (item.type.name === "List") {
                 return React.cloneElement(item, {
@@ -94,15 +96,16 @@ class ListInfo extends Component {
                     addItemList: this.addItem,
                     setDragItemList: this.setDragItem,
                     clearDragItem: this.clearDragItem,
-                    handlerClick: this.setActiveItem,
+                    handleClick: this.setActiveItem,
+                    handleUpdate: this.handleUpdate,
                     removeItemList: this.removeItem
                     //  changeShow: this.changeShow,
                     //                    changeList: this.changeList
                 });
             } else {
                 return React.cloneElement(item, {
-                    handlerFilter: this.setFilters,
-                    handlerSort: this.setSort
+                    handleFilter: this.setFilters,
+                    handleSort: this.setSort
                 });
             }
         });
@@ -119,7 +122,8 @@ class ListInfo extends Component {
 export default connect(
     (state) => {
         return {
-            draggable: state.dragItem
+            draggable: state.dragItem,
+            list: state.list
         }
     },
     {

@@ -42,9 +42,9 @@ class List extends Component {
                             key={key}
                             item={item}
                             draggable={item.draggable ? true : false }
-                            handlerDragStart={this.props.setDragItemList}
-                            handlerDragEndList={this.props.clearDragItem}
-                            handlerClick={this.props.handlerClick}
+                            handleDragStart={this.props.setDragItemList}
+                            handleDragEndList={this.props.clearDragItem}
+                            handleClick={this.props.handleClick}
                             handleOnDrop={this.props.changeShow}
                             >
                             <Item

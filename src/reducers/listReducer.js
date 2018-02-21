@@ -13,6 +13,24 @@ export const listReducer = (state = [], action) => {
                 }, state);
         break;
         case CHANGE_ITEM_LIST:
+            let id = action.item;
+            let start = action.start;
+            let end = action.end;
+            let list = state;
+            let add;
+            list[start] = R.filter( item => {
+                if ( item.id === id ) {
+                   // console.log("item", item);
+                    add = {...item, cat: end};
+                    return false;
+                }
+                return true;
+            }, list[start]);
+            delete add.draggable;
+            list[end].push(add);
+            //console.log(list);
+            return list;
+            /*
             let cat = action.item.cat;
             let catNew = action.item.catNew;
             let add;
@@ -24,14 +42,13 @@ export const listReducer = (state = [], action) => {
                 }
                 return true;
             }, state[cat]);
-            list[catNew].push(add);
+            list[catNew].push(add);*/
             /*
             return R.map( (item, i) => {
                     if ( item.id === action.id )
                         item.type = action.list;
                     return item;
                 }, state );*/
-            return list;
         break;
         case CHANGE_ITEM_SHOW:
             return R.map( (item, i) => {

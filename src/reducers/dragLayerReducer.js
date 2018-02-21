@@ -12,21 +12,21 @@ export const dragLayer = (state = start , action) => {
             start: action.start ? action.start : state.start,
             end: action.end ? action.end : state.end,
             status: action.status
-        }
+        };
         break;
         case SET_DRAG_LAYER_START:
         return {
             start: action.val,
             end: state.end,
             status: action.status
-        }
+        };
         break;
         case SET_DRAG_LAYER_END:
         return {
             start: state.start,
             end: action.val,
             status: action.status
-        }
+        };
         break;
         case CLEAR_DRAG_LAYER: 
             return start;
@@ -35,4 +35,4 @@ export const dragLayer = (state = start , action) => {
             return state;
         break;
     }
-}
+};

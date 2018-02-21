@@ -6,15 +6,15 @@ import { setActiveItem, setDragStatus } from '../actions/active';
 const DragItem = function (props) {
     let drag = "";
     const dragStart = e => {
-        props.handlerDragStart(props.item);
-        //console.log('drag!');
-        //e.preventDefault();
+        props.handleDragStart(props.item);
+        console.log('drag!');
         //props.setDragStatus("in");
         //props.handleDragStart(props.id, "D");
     };
     const dragEnd = e => {
-        props.handlerDragEnd();
-        props.handlerDragEndList();
+        console.log("drag end");
+        props.handleDragEnd();
+        props.handleDragEndList();
     };
     const renderChild = () => {
         return React.cloneElement(props.children, {
@@ -22,19 +22,21 @@ const DragItem = function (props) {
         });
     };
     const dragMove = e => {
-        e.preventDefault();
+        //e.preventDefault();
+        console.log('drag move');
     };
     const dragOver = e => {
-    }
+        console.log('drag over');
+    };
     const dragLeave = e => {
         //console.log('leave item');
     //    props.handlerBlock(e);
         //console.log('drag leave');
-    }
+        e.preventDefault();
+    };
     const dragEnter = e => {
-        props.handlerBlock(e);
         //console.log('drag enter');
-    }
+    };
     const mouseDown = (e) => {
         //console.log("down");
         //props.setActiveItem(props.children.props);
@@ -42,11 +44,10 @@ const DragItem = function (props) {
     };
     const mouseUp = (e) => {
         //console.log("up");
-
     };
     const mouseClick = (e) => {
-        props.handlerClick(props.id);
-    }
+        props.handleClick(props.id);
+    };
     const setDragStatus = function () {
         if (props.drag) {
             drag = props.drag === "D" ? " draggabled" : " removed";
@@ -73,9 +74,9 @@ const DragItem = function (props) {
 };
 
 DragItem.proptypes = {
-    handlerDragStart: PropTypes.func,
-    handlerDragEnd: PropTypes.func,
-    handlerClick: PropTypes.func
+    handleDragStart: PropTypes.func,
+    handleDragEnd: PropTypes.func,
+    handleClick: PropTypes.func
 };
 export default connect(
     null,

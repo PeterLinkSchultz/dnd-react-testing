@@ -1,6 +1,7 @@
+import { DO_FINISH } from '../constants/drag';
+
 export const dragFinish = (state = false, action) => {
-    if ( action.type === "SET_FINISH")
-        return true;
-    else
-        return false;
-}
+    if ( action.type === DO_FINISH)
+        return state ? false : true;
+    return state;
+};

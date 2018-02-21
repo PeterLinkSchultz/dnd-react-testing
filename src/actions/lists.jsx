@@ -28,10 +28,12 @@ export const setList = () => async (dispatch, getState) => {
         console.log(e);
     }
 };
-export const changeList = (item) => dispatch => {
+export const changeList = (item, layers) => dispatch => {
     dispatch({
         type: CHANGE_ITEM_LIST,
-        item
+        item,
+        start: layers.start,
+        end: layers.end
     })
 };
 

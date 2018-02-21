@@ -1,4 +1,11 @@
-import { SET_DRAG_LAYER_START, SET_DRAG_LAYER_END, CLEAR_DRAG_LAYER, SET_DRAG_LAYERS, SET_DRAG_ITEM } from "../constants/drag";
+import {
+    SET_DRAG_LAYER_START,
+    SET_DRAG_LAYER_END,
+    CLEAR_DRAG_LAYER,
+    SET_DRAG_LAYERS,
+    SET_DRAG_ITEM,
+    DO_FINISH
+} from "../constants/drag";
 
 export const setLayerStart = (val, status) => dispatch => {
     dispatch({
@@ -31,5 +38,10 @@ export const setDragItem = (item) => dispatch => {
     dispatch({
         type: SET_DRAG_ITEM,
         item
+    })
+};
+export const handleFinish = () => dispatch => {
+    dispatch({
+        type: DO_FINISH
     })
 };

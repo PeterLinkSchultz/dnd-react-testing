@@ -3,3 +3,4 @@ export const SET_DRAG_LAYER_START = "SET_DRAG_LAYER_START";
 export const SET_DRAG_LAYER_END = "SET_DRAG_LAYER_END";
 export const CLEAR_DRAG_LAYER = "CLEAR_DRAG_LAYER";
 export const SET_DRAG_ITEM = "SET_DRAG_ITEM";
+export const DO_FINISH = "DO_FINISH";
