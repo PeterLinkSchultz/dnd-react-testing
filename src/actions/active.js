@@ -1,4 +1,4 @@
-import {CLEAR_ACTIVE, SET_ACTIVE, SET_LAYER} from '../constants/active';
+import {CLEAR_ACTIVE, SET_ACTIVE, SET_LAYER, SET_STATUS} from '../constants/active';
 
 export const setActiveItem = item => dispatch => {
     dispatch({
@@ -12,9 +12,15 @@ export const clearActive = cat => dispatch => {
         cat
     })
 };
-export const setLayer = cat => dispatch => {
+export const setDragLayer = cat => dispatch => {
     dispatch({
         type: SET_LAYER,
         cat
+    })
+};
+export const setDragStatus = drag => dispatch => {
+    dispatch({
+        type: SET_STATUS,
+        drag
     })
 };

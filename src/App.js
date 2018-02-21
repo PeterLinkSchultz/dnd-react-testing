@@ -36,7 +36,7 @@ class App extends Component {
               handleUpdate={this.handleUpdate}/>
         </ListInfo>
         <div className="info">
-          { this.props.active !== null ? this.props.active.name : ""}
+          {/* this.props.active !== null ? this.props.active.name : ""*/}
         </div>
         <ListInfo name="checked"
                   list={ this.props.list.checked !== undefined ? this.props.list.checked : [] }>
@@ -58,7 +58,7 @@ export default connect(
   (state) => {
       return {
           list: state.list,
-          active: state.active
+          //active: state.active
       }
   },
     {

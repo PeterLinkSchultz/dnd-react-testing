@@ -12,28 +12,42 @@ const R = require('ramda');
 class List extends Component {
     constructor(props) {
         super(props);
-    }
 
+        this.blockLayer = this.blockLayer.bind(this);
+        this.state = {
+            flag: false
+        }
+    }
+    blockLayer(flag) {
+        if ( this.state !== flag )
+            this.setState({ flag });
+    }
+    
     render() {
         //const list = R.filter((item) => { return item.type === this.props.name }, this.props.list);
         //console.log(this.props);
         return (
             <DragLayer
                 handleUpdate={this.props.handleUpdate}
+                addItemList={this.props.addItemList}
+                removeItemList={this.props.removeItemList}
                 id={this.props.id}
+                block={this.state.flag}
+                classNames="list_items"
             >
-            <div className="list_items">
                 {
                    R.map((item, key) => {
                         return <DragItem
-                            //drag={item.active}
-                            id={item.id}
-                            handleDragStart={this.props.changeShow}
-                            handleDragEnd={this.props.changeShow}
+                            id={item.id} 
+                            key={key}
+                            item={item}
+                            draggable={item.draggable ? true : false }
+                            handlerDragStart={this.props.setDragItemList}
+                            handlerDragEndList={this.props.clearDragItem}
+                            handlerClick={this.props.handlerClick}
                             handleOnDrop={this.props.changeShow}
                             >
                             <Item
-                                key={key}
                                 name={`Item${item.name}`}
                                 active={item.active}
                                 cat={item.cat}
@@ -42,7 +56,6 @@ class List extends Component {
                         </DragItem>
                     }, this.props.list)
                 }
-            </div>
             </DragLayer>
         );
     }

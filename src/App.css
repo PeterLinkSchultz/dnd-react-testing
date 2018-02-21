@@ -47,7 +47,7 @@ body {
 .list_filter {
 
 }
-.list_items {
+.list .list_items {
   overflow-y: auto;
   height: 320px;
 }
@@ -58,14 +58,13 @@ body {
   box-sizing: border-box;
   height: 70px;
   cursor: pointer;
-  margin-bottom: 15px;
 }
 .info {
   width: 200px;
 }
 .draggable_item {
+  margin-bottom: 15px;
   position: relative;
-  width: 100%;
   background: #FFF;
   border-radius: 6px;
 }
@@ -75,8 +74,13 @@ body {
   z-index: 9999;
 }
 .draggable_item-active {
+}
+.draggable_item.draggabled {
   opacity: 0.7;
   box-shadow: 0 0 2px 2px #222222;
+}
+.draggable_item.removed {
+  display: none;
 }
 .draggable_layer {
   height: auto;
