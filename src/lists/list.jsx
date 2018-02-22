@@ -25,7 +25,7 @@ class List extends Component {
     
     render() {
         //const list = R.filter((item) => { return item.type === this.props.name }, this.props.list);
-        //console.log(this.props);
+        if ( this.props.list !== undefined ) 
         return (
             <DragLayer
                 handleUpdate={this.props.handleUpdate}
@@ -57,7 +57,8 @@ class List extends Component {
                     }, this.props.list)
                 }
             </DragLayer>
-        );
+        ); else
+        return <div></div>;
     }
 }
 export default List;

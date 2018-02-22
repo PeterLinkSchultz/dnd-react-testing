@@ -8,11 +8,13 @@ const DragItem = function (props) {
     const dragStart = e => {
         props.handleDragStart(props.item);
         console.log('drag!');
+        console.log(e);
         //props.setDragStatus("in");
         //props.handleDragStart(props.id, "D");
     };
     const dragEnd = e => {
         console.log("drag end");
+        //e.originalEvent.dataTransfer.setData('text/plain', 'anything');
         props.handleDragEnd();
         props.handleDragEndList();
     };
@@ -23,10 +25,10 @@ const DragItem = function (props) {
     };
     const dragMove = e => {
         //e.preventDefault();
-        console.log('drag move');
+        //console.log('drag move');
     };
     const dragOver = e => {
-        console.log('drag over');
+        //console.log('drag over');
     };
     const dragLeave = e => {
         //console.log('leave item');
@@ -59,14 +61,14 @@ const DragItem = function (props) {
             className={`draggable_item${props.draggable ? " draggabled" : ""}`}
             onDragStart={(e) => dragStart(e)}
             onDragEnd={(e) => dragEnd(e)}
-            onDrag={(e) => dragMove(e)}
+            onDrag={dragMove}
             onDragOver={(e) => dragOver(e)}
             onDragLeave={(e) => dragLeave(e)}
             onDragEnter={(e) => dragEnter(e)}
             onMouseDown={(e) => mouseDown(e)}
             onMouseUp={(e) => mouseUp(e)}
             onClick={(e) => mouseClick(e)}
-        //onMouseMove={ mouseMove }
+            onMouseMove={ dragMove }
         >
             {renderChild()}
         </div>

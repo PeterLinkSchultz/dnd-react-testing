@@ -26,5 +26,19 @@ export const list  = [
     status: [],
     cat: "checked",
     active: false
+  },
+  {
+    id: 5,
+    name: 5,
+    status: [],
+    cat: "checked",
+    active: false
+  },
+  {
+    id: 6,
+    name: 6,
+    status: [],
+    cat: "checked",
+    active: false
   }
 ];

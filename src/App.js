@@ -4,74 +4,79 @@ import './App.css';
 
 import { connect } from 'react-redux';
 import { getList, changeList } from './actions/lists';
-import { setActiveItem, clearActive} from './actions/active';
+import { setActiveItem, clearActive } from './actions/active';
 import { handleFinish } from "./actions/drag"
 import PropTypes from 'prop-types';
-import ListInfo from './lists/listInfo';
-import List from './lists/list';
+import ListInfo from './lists/block';
+import List from './lists/list2';
 import Panel from './panel/panel';
 import Filter from './panel/filter';
+
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+
 class App extends Component {
 
-    componentDidMount() {
-        this.handleUpdate = this.handleUpdate.bind(this);
-        this.props.getList();
-        //console.log(this.props);
-    }
-    handleUpdate(item, layers) {
-        this.props.changeList(item, layers);
-        this.props.handleFinish();
-        //console.log("UPDATE");
-        //this.props.clearActive();
-    }
+  componentDidMount() {
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.props.getList();
+    //console.log(this.props);
+  }
+  handleUpdate(item, layers) {
+    this.props.changeList(item, layers);
+    this.props.handleFinish();
+    //console.log("UPDATE");
+    //this.props.clearActive();
+  }
   render() {
-        //console.log("render App");
+    //console.log("render App");
     return (
       <div className="container">
         <ListInfo name="unchecked"
-                  handleUpdate={this.handleUpdate}
-                  //list={ this.props.list }
-                >
+          handleUpdate={this.handleUpdate}
+        //list={ this.props.list }
+        >
           <Panel>
             <Filter
               type="S"
               value="name"
             />
           </Panel>
-          <List/>
+          <List />
         </ListInfo>
         <div className="info">
           {/* this.props.active !== null ? this.props.active.name : ""*/}
         </div>
         <ListInfo name="checked"
-                  handleUpdate={this.handleUpdate}
-                  //list={ this.props.list }
-                    >
+          handleUpdate={this.handleUpdate}
+        //list={ this.props.list }
+        >
           <Panel>
             <Filter
               type="L"
-              value={ ["flower","heart","sun", "flash" ]}
-             />
+              value={["flower", "heart", "sun", "flash"]}
+            />
           </Panel>
-          <List/>
+          <List />
         </ListInfo>
       </div >
     );
   }
 }
+App = DragDropContext(HTML5Backend)(App);
 
 export default connect(
   (state) => {
-      return {
-          list: state.list,
-          finish: state.dragFinish
-          //active: state.active
-      }
-  },
-    {
-        changeList,
-        handleFinish,
-        getList,
-        clearActive
+    return {
+      list: state.list,
+      finish: state.dragFinish
+      //active: state.active
     }
+  },
+  {
+    changeList,
+    handleFinish,
+    getList,
+    clearActive
+  }
 )(App);

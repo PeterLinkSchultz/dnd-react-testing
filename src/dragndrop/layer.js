@@ -46,6 +46,8 @@ const DragLayer = function (props) {
         props.addItemList();
     };
     const drop = e => {
+        if(e.preventDefault) { e.preventDefault(); }
+        if(e.stopPropagation) { e.stopPropagation(); }
         if ( props.layers.start !== props.layers.end && props.layers.end ) {
             props.handleUpdate(props.layers);
             props.clearLayer();

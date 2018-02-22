@@ -87,7 +87,7 @@ class ListInfo extends Component {
     }
     renderChild() {
 
-        console.log("render", this.props.draggable);
+        //console.log("render", this.props.draggable);
         return React.Children.map(this.props.children, item => {
             if (item.type.name === "List") {
                 return React.cloneElement(item, {

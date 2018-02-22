@@ -26,29 +26,9 @@ export const listReducer = (state = [], action) => {
                 }
                 return true;
             }, list[start]);
-            delete add.draggable;
-            list[end].push(add);
-            //console.log(list);
+            list[end] = R.prepend(add, list[end]);
+            //list[end].push(add);
             return list;
-            /*
-            let cat = action.item.cat;
-            let catNew = action.item.catNew;
-            let add;
-            let list = state;
-            list[cat] = R.filter( item => {
-                if ( item.id === action.item.id ) {
-                    add = {...item, cat: catNew};
-                    return false;
-                }
-                return true;
-            }, state[cat]);
-            list[catNew].push(add);*/
-            /*
-            return R.map( (item, i) => {
-                    if ( item.id === action.id )
-                        item.type = action.list;
-                    return item;
-                }, state );*/
         break;
         case CHANGE_ITEM_SHOW:
             return R.map( (item, i) => {
