@@ -5,11 +5,12 @@ import Item from '../lists/item';
 
 const subjectSource = {
     beginDrag(props, monitor, component) {
-        //console.log(props);
         //return props;
+        props.handleDragStart(props.data.id);
         return { ...props.data };
     },
     endDrag(props, monitor, component) {
+        props.handleDragEnd();
         if ( !monitor.didDrop() ) {
             return;
         }
@@ -42,17 +43,14 @@ class DragItem extends Component {
         this.props.handleLeave(coords, e.pageX, e.pageY, this.props.data.id);
     }
     render() {
-        const { connectDragSource, isDragging, index, sectionData, data } = this.props;
-       // console.log(data);
-        const isDrag = isDragging;// ? data.active ? "Y" : false : "D";
+        const { connectDragSource, isDragging, draggabled, dragItem, sectionData, data } = this.props;
         return connectDragSource(
             <div 
                 onDragEnter={ (e) => { this.props.handleOver(data.id) }}
                 onDragLeave={ (e) => { this.handleLeave(e)}}
-                className={`draggable draggable_item${isDragging || data.active === "D" ? " draggabled" : data.active === "H" ? " hovered" : ""}`}>
+                className={`draggable draggable_item${draggabled ? " draggabled" : ""}`}>
             <Item
                 data={data}
-                isDragging={isDragging}
             />
             </div>
         )

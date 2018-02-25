@@ -1,9 +1,7 @@
 import  {
-    ADD_TO_LIST,
-    REMOVE_FROM_LIST,
-    CHANGE_ITEM_STATUS,
     CHANGE_ITEM_LIST,
     CHANGE_ITEM_SHOW,
+    CHANGE_ITEM_POSITION,
     SET_LISTS
 } from '../constants/lists';
 
@@ -28,15 +26,23 @@ export const setList = () => async (dispatch, getState) => {
         console.log(e);
     }
 };
-export const changeList = (item, layers) => dispatch => {
+export const changeList = (item, position, layers) => dispatch => {
     dispatch({
         type: CHANGE_ITEM_LIST,
         item,
+        position,
         start: layers.start,
         end: layers.end
     })
 };
-
+export const changePosition = (item, position, fixed) => dispatch => {
+    dispatch({
+        type: CHANGE_ITEM_POSITION,
+        item,
+        position,
+        fixed
+    })
+};
 export const changeShow = id => dispatch => {
   dispatch({
       type: CHANGE_ITEM_SHOW,

@@ -14,18 +14,22 @@ class ListInfo extends Component {
         this.renderChild = this.renderChild.bind(this);
         this.setFilters = this.setFilters.bind(this);
         this.setSort = this.setSort.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.addItem = this.addItem.bind(this);
         this.removeItem = this.removeItem.bind(this);
         this.moveItem = this.moveItem.bind(this);
         this.checkMove = this.checkMove.bind(this);
         this.leaveItem = this.leaveItem.bind(this);
+        this.dragStart = this.dragStart.bind(this);
+        this.dragEnd = this.dragEnd.bind(this);
 
         this.state = {
             filter: [],
             id: props.name,
             list: [],
-            isDrag: false,
-            dragItem: false
+            dragItem: false,
+            dynamic: (props.dynamic === undefined) ? false : props.dynamic,
+            position: false
         };
     }
     setFilters(name) {
@@ -35,50 +39,60 @@ class ListInfo extends Component {
 
     }
     addItem(data) {
-        let list = this.state.list;
-        if (!R.find(R.propEq('id', data.id))(list)) {
-            let item = { ...data, active: "H" };
-            list = R.prepend(item, list);
-            this.setState({ list, isDrag: true, dragItem: data.id });
+        if ( !this.state.dragItem ) {
+            let list = this.state.list;
+            list = R.prepend(data, list);
+            this.setState({ list, dragItem: data.id, position: 0 });
         }
     }
     removeItem() {
-        /*
-        if (R.find(R.propEq('new', "Y"))(this.state.list)) {
-            let list = R.filter((item) => {
-                return item.new !== "Y";
-            }, this.state.list);
-        }*/
-        let list = R.filter((item) => {
-            return item.id !== this.state.dragItem;
+        let drag = R.filter( item => {
+            return item.cat !== this.state.id;
         }, this.state.list);
-        this.setState({ list, isDrag: false });
+        if ( drag.length > 0 ) {
+            let list = R.filter((item) => {
+                return item.id !== this.state.dragItem;
+            }, this.state.list);
+            this.setState({ list, dragItem: false, position: false });
+        }
     }
     checkMove(id, callback) {
-        if (id !== this.state.dragItem && this.state.isDrag)
-            callback(false, true)
+        if ( this.state.dragItem && id !== this.state.dragItem && this.state.dynamic )
+            callback(false, true);
         else
             callback(true, false);
     }
     moveItem(id) {
-        this.checkMove(id, (error, success) => {
-            if (!error) {
-                this.move(id);
-            } else
-                return false;
+            this.checkMove(id, (error, success) => {
+                if (!error) {
+                    this.move(id);
+                } else
+                    return false;
+            });
+    }
+    dragStart(id) {
+        //console.log('start', id);
+        this.setState({
+            dragItem: id
+        });
+    }
+    dragEnd() {
+        this.setState({
+            dragItem: false
         });
     }
     move(id, step = 0) {
         let add;
         let temp = R.filter(item => {
-            if (item.id == this.state.dragItem) {
-                add = { ...item, active: "D" };
+            if (item.id === this.state.dragItem) {
+                add = item;
                 return false;
             }
             return item.id !== this.state.dragItem;
         }, this.state.list);
-        let list = R.insertAll(R.findIndex(R.propEq('id', id))(temp) + step, add, temp);
-        this.setState({ list });
+        let position = R.findIndex(R.propEq('id', id))(temp);
+        let list = R.insertAll(position + step, add, temp);
+        this.setState({ list, position });
     }
     leaveItem(coords, leaveX, leaveY, id) {
         this.checkMove(id, (error, success) => {
@@ -100,29 +114,44 @@ class ListInfo extends Component {
                 return false;
         });
     }
+    handleUpdate(id, layers){
+        console.log(this.state.position);
+        if ( layers.start !== layers.end ) {
+            this.props.handleUpdate(id, this.state.position, layers);
+        } else if ( this.state.position !== false ) {
+            console.log(this.props);
+            this.props.handleUpdatePosition(id, this.state.position, layers.start);
+        }
+    }
     componentWillReceiveProps(props) {
+        //console.log("update!");
         let name = this.state.id;
         //console.log(name, props.list[name]);
         if (props.list[name] !== undefined) {
             //if ( props.list[name].length !== this.state.list.length )
-            this.setState({ list: R.map(item => { return item }, props.list[name]), isDrag: false });
+            this.setState({
+                list: R.map(item => { return item }, props.list[name]),
+                dragItem: false,
+                position: false
+            });
         }
     }
     renderChild() {
+        //console.log(this.state);
         return React.Children.map(this.props.children, item => {
             if (item.type.name === "List") {
                 return React.cloneElement(item, {
                     list: this.state.list,
                     id: this.state.id,
-                    changeList: this.props.changeList,
-                    handleUpdate: this.props.handleUpdate,
+                    dynamic: this.state.dynamic,
+                    dragItem: this.state.dragItem,
                     addItemList: this.addItem,
                     removeItemList: this.removeItem,
-                    isDrag: this.state.isDrag,
                     handleMove: this.moveItem,
-                    handleLeave: this.leaveItem
-                    //  changeShow: this.changeShow,
-                    //                    changeList: this.changeList
+                    handleLeave: this.leaveItem,
+                    handleDragStart: this.dragStart,
+                    handleDragEnd: this.dragEnd,
+                    handleUpdate: this.handleUpdate
                 });
             } else {
                 return React.cloneElement(item, {
@@ -152,7 +181,5 @@ export default connect(
         setActiveItem,
         setDragItemStore,
         changeList
-        //changeShowItem: changeShow,
-        //changeListItem: changeList
     }
 )(ListInfo);

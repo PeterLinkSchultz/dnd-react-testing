@@ -98,7 +98,8 @@ class ListInfo extends Component {
                     clearDragItem: this.clearDragItem,
                     handleClick: this.setActiveItem,
                     handleUpdate: this.handleUpdate,
-                    removeItemList: this.removeItem
+                    removeItemList: this.removeItem,
+                    dynamic: this.state.dynamic
                     //  changeShow: this.changeShow,
                     //                    changeList: this.changeList
                 });

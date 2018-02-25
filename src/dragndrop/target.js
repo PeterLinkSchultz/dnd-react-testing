@@ -14,41 +14,36 @@ const layerTarget = {
     },
 
     hover(props, monitor, component) {
+        //console.log('hover');
         const item = monitor.getItem();
-        if (props.id !== item.cat) {
-            if (!props.isDrag) {
+            if (props.id !== item.cat) {
                 props.addItemList(item);
-            } else {
-                //console.log(monitor);
             }
-        }
         //console.log('hover', props );
     },
     drop(props, monitor) {
         const item = monitor.getItem();
-        if (item.cat !== props.id) {
-            props.handleUpdate(item.id, { start: item.cat, end: props.id });
-        }
+        props.handleUpdate(item.id, { start: item.cat, end: props.id });
     }
-}
+};
 
 const collect = (connect, monitor) => {
     return {
         connectDropTarget: connect.dropTarget(),
-        //isOver: monitor.isOver(),
+        isOver: monitor.isOver(),
         //isItem: monitor.getItem(),
         //isOverCurrent: monitor.isOver({ shallow: true }),
     }
-}
+};
 
 class DragLayer extends Component {
-    componentWillUpdate(props) {
-        //console.log(props);
-        return true;
+    componentWillReceiveProps(props) {
+        if ( !props.isOver ) {
+            props.removeItemList();
+        }
     }
     render() {
-        //console.log("render ",this.props);
-        const { isOver, canDrop, connectDropTarget, changeList, handleUpdate, isDrag } = this.props;
+        const { connectDropTarget } = this.props;
         return connectDropTarget(
             <div className="list_items">
                 {
@@ -58,6 +53,9 @@ class DragLayer extends Component {
                             data={item}
                             handleOver={this.props.handleMove}
                             handleLeave={this.props.handleLeave}
+                            handleDragStart={this.props.handleDragStart}
+                            handleDragEnd={this.props.handleDragEnd}
+                            draggabled={ (this.props.dragItem) ? item.id === this.props.dragItem : false}
                         />
                     }, this.props.list)
                 }

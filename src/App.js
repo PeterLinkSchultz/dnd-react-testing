@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import { connect } from 'react-redux';
-import { getList, changeList } from './actions/lists';
+import { getList, changeList, changePosition } from './actions/lists';
 import { setActiveItem, clearActive } from './actions/active';
 import { handleFinish } from "./actions/drag"
 import PropTypes from 'prop-types';
@@ -19,21 +19,26 @@ class App extends Component {
 
   componentDidMount() {
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleUpdatePosition = this.handleUpdatePosition.bind(this);
     this.props.getList();
     //console.log(this.props);
   }
-  handleUpdate(item, layers) {
-    this.props.changeList(item, layers);
-    this.props.handleFinish();
-    //console.log("UPDATE");
-    //this.props.clearActive();
+  handleUpdatePosition(item, position, fixed) {
+      this.props.changePosition(item, position, fixed);
+      this.props.handleFinish();
   }
+    handleUpdate(item, position, layers) {
+        this.props.changeList(item, position, layers);
+        this.props.handleFinish();
+        //this.props.clearActive();
+    }
   render() {
-    //console.log("render App");
+    console.log("render App");
     return (
       <div className="container">
         <ListInfo name="unchecked"
           handleUpdate={this.handleUpdate}
+                  dynamic={false}
         //list={ this.props.list }
         >
           <Panel>
@@ -49,6 +54,8 @@ class App extends Component {
         </div>
         <ListInfo name="checked"
           handleUpdate={this.handleUpdate}
+                  handleUpdatePosition={this.handleUpdatePosition}
+                  dynamic={true}
         //list={ this.props.list }
         >
           <Panel>
@@ -75,6 +82,7 @@ export default connect(
   },
   {
     changeList,
+      changePosition,
     handleFinish,
     getList,
     clearActive

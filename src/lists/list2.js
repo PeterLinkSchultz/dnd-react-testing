@@ -24,25 +24,15 @@ class List extends Component {
                 <DragLayer
                     list={this.props.list}
                     id={this.props.id}
-                    changeList={this.props.changeList}
                     handleUpdate={this.props.handleUpdate}
                     addItemList={this.props.addItemList}
                     removeItemList={this.props.removeItemList}
                     handleMove={this.props.handleMove}
                     handleLeave={this.props.handleLeave}
-                    isDrag={this.props.isDrag}
+                    handleDragStart={this.props.handleDragStart}
+                    handleDragEnd={this.props.handleDragEnd}
+                    dragItem={this.props.dragItem}
                 />
-                {/*
-                    R.map((item, key) => {
-                        return <Item
-                            key={key}
-                            name={`Item${item.name}`}
-                            active={item.active}
-                            cat={item.cat}
-                            id={item.id}
-                        />
-                    }, this.props.list)
-                */ }
             </div>
         );
     }
