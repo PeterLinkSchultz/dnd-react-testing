@@ -1,27 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Checker from './checker';
+import FilterChecker from './filterChecker';
 import Input from './input';
-
+const R = require('ramda');
 const Filter = (props) => {
     const setValue = (e, value) => {
         e.preventDefault;
     }
     const renderFilter = function() {
         if ( props.type === "L" ) {
-            return props.value.map( (item, key) => {
-                return React.createElement(Checker, {
-                    text: item,
-                    value: item,
-                    key,
-                    handlerChange: props.handlerChange
-                });
+            return props.values .map( (item, key) => {
+                return <FilterChecker
+                    text={props.name}
+                    name={item}
+                    value={item}
+                    name={props.name}
+                    key={key}
+                    default={props.default.indexOf(item) != -1 ? true : false}
+                    handleChange={props.handleChange}
+                />
             });
         }
         if ( props.type === "S" ) {
             return React.createElement(Input, {
                 text: "name",
-                handlerChange: props.handlerChange
+                handleChange: props.handleChange
             });
         }
     }

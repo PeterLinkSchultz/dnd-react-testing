@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { changeShow, changeList } from '../actions/lists';
+import { changeList, changePosition } from '../actions/lists';
 import { setActiveItem } from '../actions/active';
 import { setDragItem as setDragItemStore } from '../actions/drag';
 const R = require('ramda');
@@ -27,29 +27,98 @@ class ListInfo extends Component {
             filter: [],
             id: props.name,
             list: [],
+            sort: [],
             dragItem: false,
             dynamic: (props.dynamic === undefined) ? false : props.dynamic,
             position: false
         };
     }
-    setFilters(name) {
-
+    setFilters(name, value, flag) {
+        let filter = [];
+        console.log(name, value, flag);
+        //console.log("state:filter", this.state.filter);
+        if (this.state.filter.length > 0) {
+            filter = R.map(item => {
+                if (flag) {
+                    item.values.push(value);
+                }
+                else if (item.values.length > 1) {
+                    item.values = R.filter(val => {
+                        return val !== value;
+                    }, item.values);
+                } else {
+                    item = false;
+                }
+                return item;
+            }, this.state.filter);
+        } else {
+            filter.push({ name, values: [value]});
+        }
+        console.log("filter", filter);
+        this.setState({ filter });
+        /*
+        let index = R.findIndex(R.propEq("name", name)(filter));
+        if ( index !== -1 ) {
+            current = {
+                name,
+                values: value
+            };
+            filter.push(current);
+        } else {
+            current = R.find(R.propEq("name", name)(filter));
+            if ( flag ) {
+                current.values.push(value);
+            } else if ( current.values.length > 1 ){
+                current.values = current.values.filter( item => { return item !== name });
+            } else {
+                current = false;
+            }
+            
+        }*/
     }
-    setSort(sort) {
+    setSort(name, value, index) {
+        let sort = this.state.sort;
+        //console.log(name, value, index);
+        sort[index] = { name, value };
+        let list = this.sortList(this.state.list, sort);
+        this.setState({ sort, list });
+    }
+    filterList(list, params) {
+        if (params.length > 0) {
+
+        }
+    }
+    sortList(list, params) {
+        if (params.length > 0) {
+            params.map((sortVal, key) => {
+                let sortBy = sortVal.name;
+                let sortOrder = sortVal.value
+                list = R.sort((a, b) => {
+                    if (sortOrder === "ASC")
+                        return a[sortBy] > b[sortBy];
+                    else
+                        return a[sortBy] < b[sortBy];
+                }, list);
+            });
+            //sort.map()
+            return list;
+        } else {
+            return list;
+        }
 
     }
     addItem(data) {
-        if ( !this.state.dragItem ) {
+        if (!this.state.dragItem) {
             let list = this.state.list;
             list = R.prepend(data, list);
             this.setState({ list, dragItem: data.id, position: 0 });
         }
     }
     removeItem() {
-        let drag = R.filter( item => {
+        let drag = R.filter(item => {
             return item.cat !== this.state.id;
         }, this.state.list);
-        if ( drag.length > 0 ) {
+        if (drag.length > 0) {
             let list = R.filter((item) => {
                 return item.id !== this.state.dragItem;
             }, this.state.list);
@@ -57,18 +126,18 @@ class ListInfo extends Component {
         }
     }
     checkMove(id, callback) {
-        if ( this.state.dragItem && id !== this.state.dragItem && this.state.dynamic )
+        if (this.state.dragItem && id !== this.state.dragItem && this.state.dynamic)
             callback(false, true);
         else
             callback(true, false);
     }
     moveItem(id) {
-            this.checkMove(id, (error, success) => {
-                if (!error) {
-                    this.move(id);
-                } else
-                    return false;
-            });
+        this.checkMove(id, (error, success) => {
+            if (!error) {
+                this.move(id);
+            } else
+                return false;
+        });
     }
     dragStart(id) {
         //console.log('start', id);
@@ -114,30 +183,36 @@ class ListInfo extends Component {
                 return false;
         });
     }
-    handleUpdate(id, layers){
-        console.log(this.state.position);
-        if ( layers.start !== layers.end ) {
-            this.props.handleUpdate(id, this.state.position, layers);
-        } else if ( this.state.position !== false ) {
-            console.log(this.props);
-            this.props.handleUpdatePosition(id, this.state.position, layers.start);
+    handleUpdate(id, layers) {
+        //console.log(this.state.position);
+        if (layers.start !== layers.end) {
+            this.props.changeList(id, this.state.position, layers);
+        } else if (this.state.position !== false) {
+            //console.log(this.props);
+            this.props.changePosition(id, this.state.position, layers.start);
         }
+        //this.props.handleUpdate();
     }
     componentWillReceiveProps(props) {
-        //console.log("update!");
+        let filter = this.state.filter;
         let name = this.state.id;
-        //console.log(name, props.list[name]);
+        let list;
         if (props.list[name] !== undefined) {
-            //if ( props.list[name].length !== this.state.list.length )
+            list = R.map(item => { return item }, props.list[name]);
+            if (filter.length > 0) {
+
+            }
+            if (list.length > 0)
+                list = this.sortList(list, this.state.sort);
             this.setState({
-                list: R.map(item => { return item }, props.list[name]),
+                list,
                 dragItem: false,
                 position: false
             });
         }
     }
     renderChild() {
-        //console.log(this.state);
+        //console.log("RENDER BLOCK", this.props.list);
         return React.Children.map(this.props.children, item => {
             if (item.type.name === "List") {
                 return React.cloneElement(item, {
@@ -180,6 +255,7 @@ export default connect(
     {
         setActiveItem,
         setDragItemStore,
-        changeList
+        changeList,
+        changePosition
     }
 )(ListInfo);

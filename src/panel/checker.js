@@ -1,26 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const Checker = function (props) {
-    const handlerChange = (e) => {
-        console.log(props);
-        props.handlerChange(props.value);
+class Checker extends Component {
+    constructor(props) {
+        super(props);
     }
-    return (
-        <label>
-            <input
-                type="checkbox"
-                name={props.name}
-                onChange={(e) => handlerChange(e) } />
-            <span>
-                {props.text}
-            </span>
-        </label>
-    );
+    handleChange = () => {
+        console.log("change checker");
+        this.props.handleChange();
+    }
+    render() {
+        return (
+            <label>
+                <input
+                    type="checkbox"
+                    value={this.props.value}
+                    checked={this.state.checked}
+                    name={this.props.name}
+                    onChange={(e) => this.handleChange(e)} />
+                <span>
+                    {this.props.text}
+                </span>
+            </label>
+        );
+    }
 }
 
+
 Checker.prototypes = {
-    handlerChange: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
     text: PropTypes.string,
     name: PropTypes.string,
     value: PropTypes.string.isRequired

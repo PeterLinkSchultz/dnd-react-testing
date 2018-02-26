@@ -7,14 +7,14 @@ const Panel = function (props) {
             if ( item.type.name === "Filter" ) {
                 return React.cloneElement(item,
                     {
-                        handlerChange: props.handlerFilter,
+                        handleChange: props.handleFilter
                     }
                 )
             } 
             if ( item.type.name === "Sort" ) {
                 return React.cloneElement(item,
                     {
-                        handlerChange: props.handlerSort,
+                        handleChange: props.handleSort
                     }
                 )
             }
@@ -28,8 +28,8 @@ const Panel = function (props) {
 
 };
 Panel.prototypes = {
-    handlerFilter: PropTypes.func,
-    handlerSort: PropTypes.func
+    handleFilter: PropTypes.func,
+    handleSort: PropTypes.func
 };
 export default Panel;
 
