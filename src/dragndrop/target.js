@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
 
-import { connect } from 'react-redux';
-import { changeList } from '../actions/lists';
-
+import { changeList } from '../actions/items';
 import DragItem from './source';
+
 const R = require('ramda');
 const layerTarget = {
     canDrop(props, monitor) {
         const item = monitor.getItem();
-        //console.log("can", item);
         return item;
     },
 
     hover(props, monitor, component) {
-        //console.log('hover');
         const item = monitor.getItem();
             if (props.id !== item.cat) {
                 props.addItemList(item);
             }
-        //console.log('hover', props );
     },
     drop(props, monitor) {
         const item = monitor.getItem();
@@ -44,12 +41,14 @@ class DragLayer extends Component {
     }
     render() {
         const { connectDropTarget } = this.props;
+        const list = this.props.list !== undefined ? this.props.list : [];
         return connectDropTarget(
             <div className="list_items">
                 {
                     R.map((item, key) => {
                         return <DragItem
-                            key={key}
+                            key={item.id}
+                            active={this.props.activeItem === item.id}
                             data={item}
                             handleOver={this.props.handleMove}
                             handleLeave={this.props.handleLeave}
@@ -57,7 +56,7 @@ class DragLayer extends Component {
                             handleDragEnd={this.props.handleDragEnd}
                             draggabled={ (this.props.dragItem) ? item.id === this.props.dragItem : false}
                         />
-                    }, this.props.list)
+                    }, list)
                 }
             </div>
         );

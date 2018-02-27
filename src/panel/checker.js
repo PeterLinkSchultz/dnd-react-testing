@@ -9,19 +9,22 @@ class Checker extends Component {
         console.log("change checker");
         this.props.handleChange();
     }
-    render() {
+    render(icon = false, text = false) {
         return (
-            <label>
+            <div className="checker">
                 <input
                     type="checkbox"
+                    id={this.props.name+"-"+this.props.value}
                     value={this.props.value}
                     checked={this.state.checked}
                     name={this.props.name}
                     onChange={(e) => this.handleChange(e)} />
-                <span>
-                    {this.props.text}
-                </span>
-            </label>
+                <label 
+                    htmlFor={this.props.name+"-"+this.props.value}
+                    className={`label ${icon ? "label-icon icon icon-" + icon : "label-default"}`}>
+                    {text ? this.props.text : ""}
+                </label>
+            </div>
         );
     }
 }

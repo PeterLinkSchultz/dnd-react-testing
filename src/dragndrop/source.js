@@ -37,10 +37,19 @@ class DragItem extends Component {
     constructor(props) {
         super(props);
         this.handleLeave = this.handleLeave.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+
+        this.state = {
+            active: false
+        }
     }
     handleLeave(e) {
         const coords = e.currentTarget.getBoundingClientRect();
         this.props.handleLeave(coords, e.pageX, e.pageY, this.props.data.id);
+    }
+    handleClick(e) {
+        let active = this.state.acitve ? false : true;
+        //console.log(e);
     }
     render() {
         const { connectDragSource, isDragging, draggabled, dragItem, sectionData, data } = this.props;
@@ -48,7 +57,8 @@ class DragItem extends Component {
             <div 
                 onDragEnter={ (e) => { this.props.handleOver(data.id) }}
                 onDragLeave={ (e) => { this.handleLeave(e)}}
-                className={`draggable draggable_item${draggabled ? " draggabled" : ""}`}>
+                onClick={ (e) => { this.handleClick(e)}}
+                className={`draggable draggable_item${draggabled ? " draggabled" : ""}${this.props.active ? " active": ""}`}>
             <Item
                 data={data}
             />

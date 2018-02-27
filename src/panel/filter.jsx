@@ -7,36 +7,42 @@ const Filter = (props) => {
     const setValue = (e, value) => {
         e.preventDefault;
     }
-    const renderFilter = function() {
-        if ( props.type === "L" ) {
-            return props.values .map( (item, key) => {
+    const renderFilter = function () {
+        if (props.type === "L") {
+            return props.values.map((item, key) => {
                 return <FilterChecker
                     text={props.name}
                     name={item}
                     value={item}
                     name={props.name}
+                    type={props.type}
                     key={key}
                     default={props.default.indexOf(item) != -1 ? true : false}
                     handleChange={props.handleChange}
                 />
             });
         }
-        if ( props.type === "S" ) {
+        if (props.type === "S") {
             return React.createElement(Input, {
-                text: "name",
+                text: props.text,
+                name: props.name,
                 handleChange: props.handleChange
             });
         }
     }
-    return(
+    return (
         <div>
+            {props.text}
             {renderFilter()}
         </div>
-        
+
     );
 }
 
 Filter.prototypes = {
-    handlerChange: PropTypes.func
+    handlerChange: PropTypes.func,
+    text: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
 };
 export default Filter;

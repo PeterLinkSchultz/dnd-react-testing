@@ -9,19 +9,17 @@ class FilterChecker extends Checker {
         this.state = {
             name: props.name,
             value: props.value,
-            checked: props.default
-        }
-        if ( props.default ) {
-            this.props.handleChange(this.state.name, this.state.value, true);
+            checked: props.default,
+            type: props.type
         }
     }
     handleChange = (e) => {
         let checked = this.state.checked ? false : true;
-        this.props.handleChange(this.state.name, this.state.value, checked);
+        this.props.handleChange(this.state.name, this.state.value, this.state.type);
         this.setState({ checked });
     }
     render() {
-        return super.render();
+        return super.render(this.props.value);
     }
 }
 

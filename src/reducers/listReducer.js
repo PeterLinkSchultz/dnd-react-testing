@@ -1,4 +1,4 @@
-import  { CHANGE_ITEM_POSITION, CHANGE_ITEM_LIST, CHANGE_ITEM_SHOW, SET_LISTS } from '../constants/lists';
+import  { CHANGE_ITEM_POSITION, CHANGE_ITEM_LIST, CHANGE_ITEM_SHOW, SET_LISTS } from '../constants/items';
 const R = require('ramda');
 
 export const listReducer = (state = [], action) => {

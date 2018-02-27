@@ -10,7 +10,7 @@ const Sort = (props) => {
                 name={props.name}
                 default={props.default}
                 values={props.values}
-                default={props.default}
+                value={props.value}
                 index={props.index}
                 handleChange={props.handleChange}
             />;

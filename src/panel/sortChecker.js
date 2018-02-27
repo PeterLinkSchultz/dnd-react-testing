@@ -12,9 +12,6 @@ class SortChecker extends Checker {
             value: props.default,
             checked: props.values.indexOf(props.default) === 1 ? true : false
         }
-        if ( props.default !== false ) {
-            props.handleChange(this.state.name, props.default, this.state.index);
-        }
     }
 
     handleChange = (e) => {
@@ -27,7 +24,8 @@ class SortChecker extends Checker {
         } else {
             value = this.state.values[0];
         }
-        this.setState({ value });
+        let checked = this.state.checked ? false : true;
+        this.setState({ value, checked });
         this.props.handleChange(this.state.name, value, this.state.index);
     }
     render() {
