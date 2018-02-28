@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Checker extends Component {
-    constructor(props) {
-        super(props);
-    }
     handleChange = () => {
-        console.log("change checker");
         this.props.handleChange();
     }
     render(icon = false, text = false) {

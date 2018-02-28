@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
 
-import Item from '../lists/item';
+import Item from '../items/item';
 
 const subjectSource = {
     beginDrag(props, monitor, component) {
-        //return props;
         props.handleDragStart(props.data.id);
         return { ...props.data };
     },
@@ -14,14 +13,6 @@ const subjectSource = {
         if ( !monitor.didDrop() ) {
             return;
         }
-        //console.log(props);
-        const item = monitor.getItem();
-        const dropResult = monitor.getDropResult();
-        /*
-        props.moveSubject(item.ID, {
-            
-        });
-        */
     }
 };
 
@@ -29,7 +20,6 @@ function collect(connect, monitor) {
     return {
         connectDragSource: connect.dragSource(),
         isDragging: monitor.isDragging(),
-        //connectDragPreview: connect.dragPreview()
     }
 }
 
@@ -37,8 +27,6 @@ class DragItem extends Component {
     constructor(props) {
         super(props);
         this.handleLeave = this.handleLeave.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-
         this.state = {
             active: false
         }
@@ -47,17 +35,12 @@ class DragItem extends Component {
         const coords = e.currentTarget.getBoundingClientRect();
         this.props.handleLeave(coords, e.pageX, e.pageY, this.props.data.id);
     }
-    handleClick(e) {
-        let active = this.state.acitve ? false : true;
-        //console.log(e);
-    }
     render() {
-        const { connectDragSource, isDragging, draggabled, dragItem, sectionData, data } = this.props;
+        const { connectDragSource, draggabled, data } = this.props;
         return connectDragSource(
             <div 
                 onDragEnter={ (e) => { this.props.handleOver(data.id) }}
                 onDragLeave={ (e) => { this.handleLeave(e)}}
-                onClick={ (e) => { this.handleClick(e)}}
                 className={`draggable draggable_item${draggabled ? " draggabled" : ""}${this.props.active ? " active": ""}`}>
             <Item
                 data={data}

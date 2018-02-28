@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import logo from './logo.svg';
 import './styles/main.css';
 
 import { getList } from './actions/items';
 import { handleFinish } from "./actions/drag"
-import ListInfo from './lists/block';
-import List from './lists/list';
+import ListInfo from './items/block';
+import List from './items/list';
+import Info from './items/info';
 import Panel from './panel/panel';
 import Filter from './panel/filter';
 import Sort from './panel/sort';
@@ -47,13 +46,15 @@ class App extends Component {
               type="S"
               name="name"
               text="Name"
-              default={false} />
+              default="" />
           </Panel>
           <List />
         </ListInfo>
-        <div className="info">
-          {/* this.props.active !== null ? this.props.active.name : ""*/}
-        </div>
+        <Info
+        title="Info"
+        name="Name"
+          info={['status']}
+        />
         <ListInfo name="checked"
           handleUpdate={this.props.handleFinish}
           handleUpdatePosition={this.handleUpdatePosition}

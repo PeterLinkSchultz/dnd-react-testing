@@ -4,6 +4,9 @@
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
+  align-items: flex-start;
+  -ms-flex-align: flex-start;
+  -webkit-align-items: flex-start;
   width: 1000px;
   margin: auto;
   justify-content: space-between;
@@ -11,7 +14,7 @@
 }
 .list {
   width: 300px;
-  background: #33ceaf;
+  background: #0386b9;
   box-sizing: border-box;
   border-radius: 6px;
   height: 600px;
@@ -25,6 +28,7 @@
 }
 .list_items {
   width: 260px;
+  min-height: 480px;
 }
 .list_item {
   box-sizing: border-box;
@@ -35,7 +39,6 @@
   height: 70px;
   cursor: pointer;
   margin-bottom: 15px;
-  border-radius: 2px;
   border: 2px solid rgba(0, 0, 0, 0);
 }
 .list_item.active {
@@ -50,9 +53,39 @@
   height: 30px;
   display: inline-block;
 }
-.list_filter {
+.panel {
   padding: 20px 20px 0;
   height: 50px;
+  flex-wrap: wrap;
+  display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.panel_item {
+  display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  align-items: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+}
+.panel_title {
+  margin: 0px 5px 0px 0px;
+  color: #EEE;
+  font: 400 18px/22px Arial sans-serif;
+}
+.panel input[type="text"] {
+  padding: 0 5px;
+  height: 30px;
+  border-radius: 4px;
+  border: none;
+  width: 100px;
 }
 .draggable_item {
   margin: 7px 0;
@@ -68,7 +101,31 @@
   height: auto;
 }
 .info {
-  width: 200px;
+  width: 250px;
+  height: 250px;
+  background: #0c9ba0;
+  border-radius: 4px;
+  padding: 20px;
+}
+.info_head {
+  font: 500 30px/36px Arial sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  color: #EEE;
+}
+.info_title {
+  margin-right: 10px;
+}
+.info_icon {
+  width: 30px;
+  height: 30px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  background-size: 30px;
+}
+.info_detail {
+  margin-bottom: 15px;
 }
 .icon {
   background-repeat: no-repeat;
@@ -87,7 +144,7 @@
   background-image: url('../img/icon-sun.png');
 }
 .checker {
-  display: inline-block;
+  display: block;
   margin: 0 4px;
 }
 .checker input {
@@ -96,14 +153,15 @@
 .label {
   position: relative;
   cursor: pointer;
+  border-radius: 4px;
 }
 .label-icon {
   width: 30px;
   height: 30px;
   border: 1px solid #fff;
   border-radius: 4px;
-  display: inline-block;
-  background-size: cover;
+  display: block;
+  background-size: 26px;
 }
 input:checked + .label {
   background-color: #fff;

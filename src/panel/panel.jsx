@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { getNameProto } from '../constants/index';
 
 class Panel extends Component {
     constructor(props) {
@@ -30,6 +31,8 @@ class Panel extends Component {
                     case "sort":
                         params[type][index] = { name, value: values };
                         break;
+                    default:
+                    break;
                 }
 
             }
@@ -46,7 +49,7 @@ class Panel extends Component {
     renderChild = () => {
         this.defaulter = this.panelDefault(this.props.handleDefault);
         return React.Children.map(this.props.children, item => {
-            if (item.type.name === "Filter") {
+            if (getNameProto.apply(item) === "filter") {
                 this.defaulter.setParams("filter", item.props.name, item.props.default);
                 return React.cloneElement(item,
                     {
@@ -54,7 +57,7 @@ class Panel extends Component {
                     }
                 )
             }
-            if (item.type.name === "Sort") {
+            if (getNameProto.apply(item) === "sort") {
                 this.defaulter.setParams("sort", item.props.name, item.props.default, item.props.index);
                 return React.cloneElement(item,
                     {
@@ -66,13 +69,16 @@ class Panel extends Component {
     };
     render() {
         return (
-            <div className="list_filter">
+            <div className="panel">
                 {this.renderChild()}
             </div>
         );
     }
 
 };
+Panel.prototype.getName = () => {
+    return "panel";
+}
 /*
 const Panel = function (props) {
     let params = {

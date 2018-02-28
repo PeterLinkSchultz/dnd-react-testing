@@ -2,22 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FilterChecker from './filterChecker';
 import Input from './input';
-const R = require('ramda');
 const Filter = (props) => {
-    const setValue = (e, value) => {
-        e.preventDefault;
-    }
     const renderFilter = function () {
         if (props.type === "L") {
             return props.values.map((item, key) => {
                 return <FilterChecker
                     text={props.name}
-                    name={item}
                     value={item}
                     name={props.name}
                     type={props.type}
                     key={key}
-                    default={props.default.indexOf(item) != -1 ? true : false}
+                    default={props.default.indexOf(item) !== -1 ? true : false}
                     handleChange={props.handleChange}
                 />
             });
@@ -25,21 +20,27 @@ const Filter = (props) => {
         if (props.type === "S") {
             return React.createElement(Input, {
                 text: props.text,
+                default: props.default ? props.default : false,
                 name: props.name,
                 handleChange: props.handleChange
             });
         }
     }
+    const toString = () => {
+        return "sort";
+    }
     return (
-        <div>
-            {props.text}
+        <div className="panel_item">
+            <p className="panel_title">{props.text}</p>
             {renderFilter()}
         </div>
 
     );
 }
-
-Filter.prototypes = {
+Filter.prototype.getName = () => {
+    return "filter";
+}
+Filter.proptypes = {
     handlerChange: PropTypes.func,
     text: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

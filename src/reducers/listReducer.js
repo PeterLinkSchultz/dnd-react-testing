@@ -7,7 +7,6 @@ export const listReducer = (state = [], action) => {
     let add;
     switch (action.type) {
         case CHANGE_ITEM_LIST:
-            console.log("change item", action);
             id = action.item;
             let start = action.start;
             let end = action.end;
@@ -21,9 +20,7 @@ export const listReducer = (state = [], action) => {
             }, list[start]);
             list[end] = R.insertAll(action.position, add, list[end]);
             return list;
-        break;
         case CHANGE_ITEM_POSITION:
-            console.log(action);
             id = action.item;
             let cat = action.fixed;
             let temp = R.filter(item => {
@@ -35,8 +32,6 @@ export const listReducer = (state = [], action) => {
             }, list[cat]);
             list[cat] = R.insertAll(action.position, add, temp);
             return list;
-          return state;
-            break;
         case CHANGE_ITEM_SHOW:
             return R.map( (item, i) => {
                 if ( item.id === action.id )
@@ -51,9 +46,7 @@ export const listReducer = (state = [], action) => {
                 catList[item.cat].push(item);
             });
             return catList;
-            break;
         default:
             return state;
-            break;
     }
 };

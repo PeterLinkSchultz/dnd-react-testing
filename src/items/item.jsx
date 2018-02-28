@@ -8,13 +8,13 @@ const Item = function (props) {
     }
     const renderStatus = e => {
         if ( props.data.status.length > 0 ) {
-            return props.data.status.map(item => {
-                return <span className={`list_item_point icon icon-${item}`}></span>
+            return props.data.status.map( (item, key) => {
+                return <span key={key} className={`list_item_point icon icon-${item}`}></span>
             });
         }
     }
     return (
-        <div className={`list_item${props.active == props.data.id ? " active" : ""}`} onClick={(e) => { handleClick(e) }}>
+        <div className={`list_item${props.active === props.data.id ? " active" : ""}`} onClick={(e) => { handleClick(e) }}>
             <div className="list_item_name">
                 {props.data.name}
             </div>

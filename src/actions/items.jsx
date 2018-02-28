@@ -15,22 +15,18 @@ export const changeItemActive = item => dispatch => {
         item
     })
 };
-export const getList = () => dispatch => {
-    dispatch({
-        type: SET_LISTS,
-        list
-    });
-};
-
-export const setList = () => async (dispatch, getState) => {
+export const getList = () => async (dispatch) => {
     try {
-        const date = await getListApi();
+        const data = await getListApi();
         dispatch({
             type: SET_LISTS,
-
+            list: data
         })
     } catch (e) {
-        console.log(e);
+        dispatch({
+            type: SET_LISTS,
+            list
+        });
     }
 };
 export const changeList = (item, position, layers) => dispatch => {

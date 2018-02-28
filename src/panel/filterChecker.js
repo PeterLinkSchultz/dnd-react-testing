@@ -1,7 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Checker from './checker';
-
 
 class FilterChecker extends Checker {
     constructor(props) {

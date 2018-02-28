@@ -1,12 +1,12 @@
 import React from 'react';
-
-import Checker from './checker';
 import Input from './input';
 import SortChecker from './sortChecker';
+
+
 const Sort = (props) => {
     const renderSort = () => {
-        if ( props.type === "C" ) {
-            return <SortChecker 
+        if (props.type === "C") {
+            return <SortChecker
                 name={props.name}
                 default={props.default}
                 values={props.values}
@@ -15,19 +15,21 @@ const Sort = (props) => {
                 handleChange={props.handleChange}
             />;
         }
-        if ( props.type === "S" ) {
-            return <Input 
+        if (props.type === "S") {
+            return <Input
                 text="name"
                 handleChange={props.handleChange}
             />
         }
     }
-    return(
-        <div>
-        {props.text}
-        {renderSort()}
+    return (
+        <div className="panel_item">
+            <p className="panel_title">{props.text}</p>
+            {renderSort()}
         </div>
     );
 }
-
+Sort.prototype.getName = () => {
+    return "sort";
+}
 export default Sort;

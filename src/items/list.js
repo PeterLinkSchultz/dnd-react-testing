@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-
 import DragLayer from '../dragndrop/target';
 
-import { connect } from 'react-redux';
-const R = require('ramda');
-
 class List extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div className="list_container">
@@ -27,5 +20,8 @@ class List extends Component {
             </div>
         );
     }
+}
+List.prototype.getName = () => {
+    return "list";
 }
 export default List;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import { changeList, changePosition } from '../actions/items';
-
+import  { getNameProto } from '../constants/index';
 const R = require('ramda');
 
 class ListInfo extends Component {
@@ -56,6 +54,8 @@ class ListInfo extends Component {
                 else
                     filter[i].values = value;
                 break;
+            default:
+            break;
         }
 
         this.setState({ filter });
@@ -196,19 +196,11 @@ class ListInfo extends Component {
         this.checkMove(id, (error, success) => {
             if (!error) {
                 if (leaveX > coords.left && leaveX < coords.right) {
-                    console.log(leaveY, coords.top, coords.bottom);
                     if (leaveY <= coords.top) {
-                        // before
-                        
-                        console.log("top!");
                     } else if (leaveY >= coords.bottom) {
-                        // after
-                        
-                        console.log("bottom!");
                         this.move(id,1);
                     }
                 } else {
-                    console.log('remove');
                     this.removeItem();
                 }
             }
@@ -229,8 +221,6 @@ class ListInfo extends Component {
         let list;
         if (props.list[name] !== undefined) {
             list = R.map(item => { return item }, props.list[name]);
-            //list = this.filterList(list);
-            //list = this.sortList(list);
             this.setState({
                 list,
                 dragItem: false,
@@ -239,9 +229,8 @@ class ListInfo extends Component {
         }
     }
     renderChild() {
-        //console.log("RENDER BLOCK", this.state);
         return React.Children.map(this.props.children, item => {
-            if (item.type.name === "Connect" && item.type.displayName.indexOf("List") !== -1 || item.type.name === "List") {
+            if ( ( getNameProto.apply(item) === "list" )) {
                 return React.cloneElement(item, {
                     list: this.selectList(this.state.list),
                     id: this.state.id,
@@ -255,7 +244,7 @@ class ListInfo extends Component {
                     handleDragEnd: this.dragEnd,
                     handleUpdate: this.handleUpdate
                 });
-            } else {
+            } else if ( getNameProto.apply(item) === "panel" ) {
                 return React.cloneElement(item, {
                     handleFilter: this.setFilter,
                     handleSort: this.setSort,
@@ -272,7 +261,6 @@ class ListInfo extends Component {
         );
     }
 }
-
 export default connect(
     (state) => {
         return {
